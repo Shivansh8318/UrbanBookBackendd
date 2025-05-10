@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from .models import User, Student
+from .models import Student
 
 class ValidateTokenView(APIView):
     """
@@ -45,31 +45,29 @@ class ValidateTokenView(APIView):
                 if response.status_code == 200:
                     otpless_data = response.json()
                     user_id = otpless_data.get('userId')
-                    user_exists = User.objects.filter(user_id=user_id).exists()
+                    student_exists = Student.objects.filter(user_id=user_id).exists()
                     identities = otpless_data.get('identities', [])
                     identity = identities[0] if identities else {}
                     identity_type = identity.get('identityType', '')
                     identity_value = identity.get('identityValue', '')
                     name = identity.get('name', '')
                     
-                    if not user_exists:
-                        user = User.objects.create(
+                    if not student_exists:
+                        student = Student.objects.create(
                             user_id=user_id,
                             identity_type=identity_type,
                             identity_value=identity_value,
-                            name=name,
-                            user_type='student'
+                            name=name
                         )
-                        Student.objects.create(user=user)
                         is_new_user = True
                     else:
-                        user = User.objects.get(user_id=user_id)
-                        user.name = name or user.name
-                        user.identity_type = identity_type or user.identity_type
-                        user.identity_value = identity_value or user.identity_value
-                        user.save()
+                        student = Student.objects.get(user_id=user_id)
+                        student.name = name or student.name
+                        student.identity_type = identity_type or student.identity_type
+                        student.identity_value = identity_value or student.identity_value
+                        student.save()
                         # Check if profile is incomplete (e.g., gender or age is null)
-                        is_new_user = not (user.gender and user.age)
+                        is_new_user = not (student.gender and student.age)
                     
                     dashboard_route = 'StudentDashboard'
                     
@@ -77,10 +75,9 @@ class ValidateTokenView(APIView):
                         'success': True,
                         'message': 'Token verified successfully',
                         'user_id': user_id,
-                        'name': user.name,
-                        'identity_type': user.identity_type,
-                        'identity_value': user.identity_value,
-                        'user_type': user.user_type,
+                        'name': student.name,
+                        'identity_type': student.identity_type,
+                        'identity_value': student.identity_value,
                         'dashboard_route': dashboard_route,
                         'is_new_user': is_new_user,
                         'identities': otpless_data.get('identities', []),
@@ -119,13 +116,10 @@ class UpdateProfileView(APIView):
     """
     def post(self, request):
         try:
-            user = User.objects.get(user_id=request.data.get('user_id'))
-            user.name = request.data.get('name', user.name)
-            user.gender = request.data.get('gender', user.gender)
-            user.age = request.data.get('age', user.age)
-            user.save()
-            
-            student = Student.objects.get(user=user)
+            student = Student.objects.get(user_id=request.data.get('user_id'))
+            student.name = request.data.get('name', student.name)
+            student.gender = request.data.get('gender', student.gender)
+            student.age = request.data.get('age', student.age)
             student.grade = request.data.get('grade', student.grade)
             student.school = request.data.get('school', student.school)
             student.save()
@@ -146,12 +140,11 @@ class GetProfileView(APIView):
     """
     def post(self, request):
         try:
-            user = User.objects.get(user_id=request.data.get('user_id'))
-            student = Student.objects.get(user=user)
+            student = Student.objects.get(user_id=request.data.get('user_id'))
             profile_data = {
-                'name': user.name,
-                'gender': user.gender,
-                'age': user.age,
+                'name': student.name,
+                'gender': student.gender,
+                'age': student.age,
                 'grade': student.grade,
                 'school': student.school,
             }

@@ -83,17 +83,9 @@ WSGI_APPLICATION = "urb_backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'neondb',
-        'USER': 'neondb_owner',
-        'PASSWORD': 'npg_6n1xJOVrCdyA',
-        'HOST': 'ep-falling-mountain-a4pxlbdp-pooler.us-east-1.aws.neon.tech',
-        'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
-    }
+    'default': dj_database_url.parse(
+        'postgresql://neondb_owner:npg_G2eNLWqPE4gy@ep-weathered-wind-a4suq4i4-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require'
+    )
 }
 
 # Password validation
@@ -129,7 +121,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # For serving static files in pr
 CORS_ALLOWED_ORIGINS = [
     "http://localhost",
     "http://127.0.0.1",
-    "http://172.20.10.3:8000",  # Your local IP and port
+    "https://909a-2409-40e3-3154-66a2-3c3c-bee1-6b0a-cf67.ngrok-free.app",  # Your local IP and port
     "http://10.0.2.2:8000",    # Android Emulator host
     # Add other origins if needed (e.g., your app's IP or domain)
 ]
