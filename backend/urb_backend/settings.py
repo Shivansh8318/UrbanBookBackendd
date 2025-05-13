@@ -35,6 +35,7 @@ OTPLESS_CLIENT_SECRET = "pkt08lintnunsuvznlkpvjs3gu0cnr7l"
 
 # Application definition
 INSTALLED_APPS = [
+    'daphne',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -42,15 +43,18 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third-party apps
+    'channels',
     "rest_framework",
     "corsheaders",  # Added for CORS support
     # Custom apps
+    'booking',
+    
     'student',
     'teacher',
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
+   
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",  # Added CORS middleware (must be before CommonMiddleware)
     "django.middleware.common.CommonMiddleware",
@@ -79,12 +83,23 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "urb_backend.wsgi.application"
+# Channels settings
+ASGI_APPLICATION = 'urb_backend.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],  # Redis server
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 DATABASES = {
     'default': dj_database_url.parse(
-        'postgresql://neondb_owner:npg_G2eNLWqPE4gy@ep-weathered-wind-a4suq4i4-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require'
+        'postgresql://neondb_owner:npg_E9neg5YtcqFh@ep-muddy-bar-a4xl6dli-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require'
     )
 }
 
@@ -121,7 +136,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # For serving static files in pr
 CORS_ALLOWED_ORIGINS = [
     "http://localhost",
     "http://127.0.0.1",
-    "https://909a-2409-40e3-3154-66a2-3c3c-bee1-6b0a-cf67.ngrok-free.app",  # Your local IP and port
+    "https://c100-2409-40e3-3196-590a-f996-7069-5145-de7a.ngrok-free.app",  # Your local IP and port
     "http://10.0.2.2:8000",    # Android Emulator host
     # Add other origins if needed (e.g., your app's IP or domain)
 ]
