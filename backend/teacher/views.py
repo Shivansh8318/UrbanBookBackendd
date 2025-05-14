@@ -154,27 +154,15 @@ class GetProfileView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
-class GetAllTeachersView(APIView):
-    """
-    API view for retrieving all teacher profiles.
-    """
+class ListTeachersView(APIView):
     def get(self, request):
-        try:
-            teachers = Teacher.objects.all()
-            teachers_data = [
-                {
-                    'user_id': teacher.user_id,
-                    'name': teacher.name,
-                    'subject': teacher.subject,
-                    'gender': teacher.gender,
-                    'age': teacher.age,
-                    'experience_years': teacher.experience_years,
-                }
-                for teacher in teachers
-            ]
-            return Response(teachers_data, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response(
-                {'success': False, 'message': f'Error retrieving teachers: {str(e)}'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        teachers = Teacher.objects.all()
+        teacher_data = [
+            {
+                'user_id': teacher.user_id,
+                'name': teacher.name,
+                'subject': teacher.subject,
+            }
+            for teacher in teachers
+        ]
+        return Response(teacher_data, status=status.HTTP_200_OK)
