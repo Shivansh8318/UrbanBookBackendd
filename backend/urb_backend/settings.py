@@ -136,7 +136,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # For serving static files in pr
 CORS_ALLOWED_ORIGINS = [
     "http://localhost",
     "http://127.0.0.1",
-    "https://c100-2409-40e3-3196-590a-f996-7069-5145-de7a.ngrok-free.app",  # Your local IP and port
+    "https://7cc4-2409-40e3-318a-b056-9914-eafc-111b-89ba.ngrok-free.app",  # Your local IP and port
     "http://10.0.2.2:8000",    # Android Emulator host
     # Add other origins if needed (e.g., your app's IP or domain)
 ]
