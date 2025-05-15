@@ -6,7 +6,7 @@
 
 1. Clone the repository:
 ```
-git clone 
+git clone https://github.com/Shivansh8318/UrbanBookBackendd.git
 cd urbanbookbackend3/backend
 ```
 
@@ -29,6 +29,7 @@ pip install -r requirements.txt
 
 1. Make sure Redis is running (required for WebSocket support):
 ```
+Use docker
 ```
 
 2. Start the development server:
