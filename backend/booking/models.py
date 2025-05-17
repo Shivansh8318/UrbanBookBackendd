@@ -17,6 +17,7 @@ class Booking(models.Model):
     slot = models.ForeignKey(AvailabilitySlot, on_delete=models.CASCADE, related_name='bookings')
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='bookings')
     created_at = models.DateTimeField(auto_now_add=True)
+    payment_status = models.BooleanField(default=False)
     status = models.CharField(
         max_length=20,
         choices=(('pending', 'Pending'), ('confirmed', 'Confirmed'), ('canceled', 'Canceled')),

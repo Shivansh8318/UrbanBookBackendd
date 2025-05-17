@@ -33,6 +33,10 @@ ALLOWED_HOSTS = ['*', '172.20.10.3', 'localhost', '127.0.0.1', '10.0.2.2']  # In
 OTPLESS_CLIENT_ID = "UGLIQUQICEM293V28ERAL5V6SRIUTQK4"
 OTPLESS_CLIENT_SECRET = "pkt08lintnunsuvznlkpvjs3gu0cnr7l"
 
+# Razorpay Settings
+RAZORPAY_KEY_ID = 'rzp_test_e2MT5ljjbnbMkc'
+RAZORPAY_KEY_SECRET = 'gknO5gROIU98k1OKebtIpQqD'
+
 # Application definition
 INSTALLED_APPS = [
     'daphne',
@@ -48,7 +52,7 @@ INSTALLED_APPS = [
     "corsheaders",  # Added for CORS support
     # Custom apps
     'booking',
-    
+    'payment',
     'student',
     'teacher',
 ]
